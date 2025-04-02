@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pramod Shenkar | Golang & Blockchain Developer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4C566A;
+      --secondary: #5E81AC;
+      --accent: #88C0D0;
+      --text: #2E3440;
+      --light: #ECEFF4;
+      --dark: #3B4252;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    
+    /* Custom 3D card effect */
+    .card-3d {
+      transition: all 0.3s ease;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    
+    .card-3d:hover {
+      transform: translateY(-10px) rotateX(5deg);
+      box-shadow: 0 15px 35px rgba(50, 50, 93, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Skill bubbles with animation */
+    .skill-bubble {
+      background-color: var(--accent);
+      color: var(--dark);
+      padding: 8px 16px;
+      border-radius: 20px;
+      display: inline-block;
+      margin: 5px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .skill-bubble:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .skill-bubble::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(rgba(255,255,255,0.2), transparent);
+      transform: rotate(30deg);
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+    
+    .skill-bubble:hover::after {
+      opacity: 1;
+    }
+    
+    /* Hero section with 3D effect */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 10;
+    }
+    
+    .cube-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    
+    .cube {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: float 10s infinite ease-in-out;
+      transform-style: preserve-3d;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    /* Timeline styling */
+    .timeline {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      background-color: var(--secondary);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -3px;
+    }
+    
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+    }
+    
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      right: -12px;
+      top: 15px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      z-index: 1;
+    }
+    
+    .left {
+      left: 0;
+    }
+    
+    .right {
+      left: 50%;
+    }
+    
+    .right::after {
+      left: -12px;
+    }
+    
+    /* Section transitions */
+    .section {
+      padding: 80px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Nav */
+    .navbar {
+      background-color: rgba(76, 86, 106, 0.9) !important;
+      backdrop-filter: blur(10px);
+    }
+    
+    /* Project cards */
+    .project-card {
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .project-card img {
+      transition: all 0.5s ease;
+    }
+    
+    .project-card:hover img {
+      transform: scale(1.05);
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--light);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--secondary);
+      border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+    
+    /* Animations for text */
+    .animated-text {
+      overflow: hidden;
+      white-space: nowrap;
+      margin: 0;
+      animation: typing 3.5s steps(40, end);
+    }
+    
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Pramod<span class="text-info">.dev</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#experience">Experience</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#skills">Skills</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#projects">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section with 3D Background -->
+    <section class="hero" id="home">
+      <div class="cube-bg" ref="cubeContainer"></div>
+      <div class="container hero-content text-center text-white">
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <h1 class="display-3 fw-bold mb-4 animated-text">Hello, I'm <span class="text-info">Pramod Shenkar</span></h1>
+            <p class="lead mb-4">Backend & Blockchain Developer crafting robust distributed systems</p>
+            <div class="mt-5">
+              <a href="#contact" class="btn btn-outline-light btn-lg me-3">Let's Connect</a>
+              <a href="#projects" class="btn btn-info btn-lg">See My Work</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section py-5" id="about">
+      <div class="container py-5">
+        <div class="row align-items-center">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="card card-3d border-0 shadow-lg">
+              <div class="card-body p-5">
+                <h2 class="fw-bold mb-4">About Me</h2>
+                <p class="lead">Hey there! I'm a software developer with a passion for building scalable systems that make a difference.</p>
+                <p>With over 4 years of experience in designing and developing distributed systems, I love diving deep into complex backend challenges while keeping performance and reliability at the forefront.</p>
+                <p>When I'm not coding, you'll find me writing poems, sketching, or taking care of my plants. I believe that a balance between technology and nature keeps the mind fresh and creative!</p>
+                <div class="mt-4">
+                  <a href="#contact" class="btn btn-primary me-2">Get In Touch</a>
+                  <a href="mailto:pramodshenkar2210@gmail.com" class="btn btn-outline-primary">Email Me</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card card-3d border-0 shadow-lg">
+              <div class="card-body p-5">
+                <h3 class="fw-bold mb-4">Quick Facts</h3>
+                <div class="row g-4">
+                  <div class="col-6">
+                    <div class="d-flex align-items-center">
+                      <div class="me-3">
+                        <i class="fas fa-code fa-2x text-primary"></i>
+                      </div>
+                      <div>
+                        <h5 class="mb-0">4+ Years</h5>
+                        <p class="text-muted mb-0">Professional Experience</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="d-flex align-items-center">
+                      <div class="me-3">
+                        <i class="fas fa-laptop-code fa-2x text-primary"></i>
+                      </div>
+                      <div>
+                        <h5 class="mb-0">Golang</h5>
+                        <p class="text-muted mb-0">Primary Language</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="d-flex align-items-center">
+                      <div class="me-3">
+                        <i class="fas fa-link fa-2x text-primary"></i>
+                      </div>
+                      <div>
+                        <h5 class="mb-0">Blockchain</h5>
+                        <p class="text-muted mb-0">Certified Developer</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="d-flex align-items-center">
+                      <div class="me-3">
+                        <i class="fas fa-graduation-cap fa-2x text-primary"></i>
+                      </div>
+                      <div>
+                        <h5 class="mb-0">B.E. Computer</h5>
+                        <p class="text-muted mb-0">Pune University</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section py-5 bg-light" id="experience">
+      <div class="container py-5">
+        <div class="text-center mb-5">
+          <h2 class="fw-bold">Work Experience</h2>
+          <p class="lead">My professional journey so far</p>
+        </div>
+        
+        <div class="timeline">
+          <div class="timeline-item left">
+            <div class="card card-3d shadow">
+              <div class="card-body">
+                <h5 class="card-title">Senior Associate Golang Developer</h5>
+                <h6 class="text-muted">National Payments Corporation of India</h6>
+                <p class="text-muted"><small>March 2023 - Present</small></p>
+                <ul class="ps-3">
+                  <li>Working on Digital Currency distributed system built with Golang, MariaDB, Kafka & Hyperledger Fabric</li>
+                  <li>Developed critical modules including token-issuance and token-redemption using hexagonal architecture</li>
+                  <li>Led optimization efforts that improved system efficiency by 75% using concurrent processing</li>
+                  <li>Coordinated with 10+ banks including RBI for CBDC platform deployment</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="timeline-item right">
+            <div class="card card-3d shadow">
+              <div class="card-body">
+                <h5 class="card-title">Associate Backend Developer</h5>
+                <h6 class="text-muted">Maharashtra Knowledge Corporation Ltd</h6>
+                <p class="text-muted"><small>April 2021 - February 2023</small></p>
+                <ul class="ps-3">
+                  <li>Built high-traffic E-learning platform serving 1M+ learners annually using Golang</li>
+                  <li>Implemented cache optimization techniques that increased server performance by 30%</li>
+                  <li>Developed simulation features from scratch including API, logging and file handling</li>
+                  <li>Enhanced reporting system using concurrency for efficient data analysis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section py-5" id="skills">
+      <div class="container py-5">
+        <div class="text-center mb-5">
+          <h2 class="fw-bold">Technical Skills</h2>
+          <p class="lead">My toolkit for building robust systems</p>
+        </div>
+        
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card card-3d h-100 border-0 shadow">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                  <i class="fas fa-code fa-2x text-primary me-3"></i>
+                  <h3 class="mb-0">Languages</h3>
+                </div>
+                <div>
+                  <span class="skill-bubble">Golang</span>
+                  <span class="skill-bubble">Protocol Buffers</span>
+                  <span class="skill-bubble">JSON</span>
+                  <span class="skill-bubble">SQL</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="card card-3d h-100 border-0 shadow">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                  <i class="fas fa-server fa-2x text-primary me-3"></i>
+                  <h3 class="mb-0">Backend</h3>
+                </div>
+                <div>
+                  <span class="skill-bubble">Microservices</span>
+                  <span class="skill-bubble">Gin-Gonic</span>
+                  <span class="skill-bubble">Go-Fiber</span>
+                  <span class="skill-bubble">GORM</span>
+                  <span class="skill-bubble">gRPC</span>
+                  <span class="skill-bubble">Event-Driven</span>
+                  <span class="skill-bubble">Go-Jaeger</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="card card-3d h-100 border-0 shadow">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                  <i class="fas fa-link fa-2x text-primary me-3"></i>
+                  <h3 class="mb-0">Blockchain</h3>
+                </div>
+                <div>
+                  <span class="skill-bubble">Hyperledger Fabric</span>
+                  <span class="skill-bubble">Smart Contracts</span>
+                  <span class="skill-bubble">Tokenization</span>
+                  <span class="skill-bubble">Chaincode</span>
+                  <span class="skill-bubble">HLF GatewayClient</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="card card-3d h-100 border-0 shadow">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                  <i class="fas fa-database fa-2x text-primary me-3"></i>
+                  <h3 class="mb-0">Data</h3>
+                </div>
+                <div>
+                  <span class="skill-bubble">MariaDB</span>
+                  <span class="skill-bubble">KeyDB</span>
+                  <span class="skill-bubble">Redis</span>
+                  <span class="skill-bubble">CouchDB</span>
+                  <span class="skill-bubble">Kafka</span>
+                  <span class="skill-bubble">IBM Sarama</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="card card-3d h-100 border-0 shadow">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                  <i class="fas fa-cloud fa-2x text-primary me-3"></i>
+                  <h3 class="mb-0">DevOps</h3>
+                </div>
+                <div>
+                  <span class="skill-bubble">Docker</span>
+                  <span class="skill-bubble">Kubernetes</span>
+                  <span class="skill-bubble">Helm</span>
+                  <span class="skill-bubble">Skaffold</span>
+                  <span class="skill-bubble">Kompose</span>
+                  <span class="skill-bubble">DevContainer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="card card-3d h-100 border-0 shadow">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                  <i class="fas fa-tools fa-2x text-primary me-3"></i>
+                  <h3 class="mb-0">Architecture</h3>
+                </div>
+                <div>
+                  <span class="skill-bubble">Distributed Systems</span>
+                  <span class="skill-bubble">Hexagonal Architecture</span>
+                  <span class="skill-bubble">N-tier Modular Layers</span>
+                  <span class="skill-bubble">Concurrency</span>
+                  <span class="skill-bubble">Idempotency</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section py-5 bg-light" id="projects">
+      <div class="container py-5">
+        <div class="text-center mb-5">
+          <h2 class="fw-bold">Featured Projects</h2>
+          <p class="lead">Some of my notable work</p>
+        </div>
+        
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card project-card card-3d border-0 shadow h-100">
+              <img src="/api/placeholder/600/300" alt="CBDC Platform" class="card-img-top">
+              <div class="card-body">
+                <h4 class="card-title">Digital Currency Platform</h4>
+                <p class="card-text">A distributed system for Central Bank Digital Currency operations built with Golang, MariaDB, Kafka, and Hyperledger Fabric.</p>
+                <p><span class="badge bg-primary me-1">Golang</span>
+                <span class="badge bg-secondary me-1">Hyperledger</span>
+                <span class="badge bg-info me-1">Microservices</span></p>
+                <p class="text-muted">Improved transaction efficiency by 75% through concurrent processing and stabilized the system with idempotent operations.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="card project-card card-3d border-0 shadow h-100">
+              <img src="/api/placeholder/600/300" alt="E-Learning Platform" class="card-img-top">
+              <div class="card-body">
+                <h4 class="card-title">High-Traffic E-Learning Platform</h4>
+                <p class="card-text">Scalable education platform serving over 1 million learners with optimized caching and reporting.</p>
+                <span class="badge bg-primary me-1">Golang</span>
+                <span class="badge bg-success me-1">GORM</span>
+                <span class="badge bg-info me-1">MariaDB</span>
+                <p class="text-muted">Implemented cache optimization that increased server performance by 30% and built simulation features from the ground up.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="card project-card card-3d border-0 shadow h-100">
+              <img src="/api/placeholder/600/300" alt="Government Fund System" class="card-img-top">
+              <div class="card-body">
+                <h4 class="card-title">Government Fund Allocation System</h4>
+                <p class="card-text">Private blockchain solution for transparent government fund allocation and distribution.</p>
+                <span class="badge bg-primary me-1">Blockchain</span>
+                <span class="badge bg-warning me-1">Smart Contracts</span>
+                <span class="badge bg-danger me-1">Security</span>
+                <p class="text-muted">University major project that demonstrated practical blockchain application for increased transparency and reduced corruption in fund distribution.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="card project-card card-3d border-0 shadow h-100">
+              <img src="/api/placeholder/600/300" alt="Distributed Tracing" class="card-img-top">
+              <div class="card-body">
+                <h4 class="card-title">Advanced Distributed Tracing</h4>
+                <p class="card-text">Implementation of distributed logging and tracing system for complex microservices architecture.</p>
+                <span class="badge bg-primary me-1">Go-Jaeger</span>
+                <span class="badge bg-secondary me-1">Kubernetes</span>
+                <span class="badge bg-success me-1">Observability</span>
+                <p class="text-muted">Enhanced debugging and monitoring capabilities across distributed services with minimal performance overhead.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section py-5" id="contact">
+      <div class="container py-5">
+        <div class="text-center mb-5">
+          <h2 class="fw-bold">Get In Touch</h2>
+          <p class="lead">I'm always open to new opportunities and collaborations</p>
+        </div>
+        
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card card-3d border-0 shadow">
+              <div class="card-body p-5">
+                <div class="row">
+                  <div class="col-md-6 mb-4 mb-md-0">
+                    <h4 class="fw-bold mb-4">Contact Information</h4>
+                    <div class="d-flex mb-3">
+                      <div class="me-3">
+                        <i class="fas fa-map-marker-alt text-primary"></i>
+                      </div>
+                      <div>
+                        <p class="mb-0">At Post Akole, Ahmadnagar, <br>Maharshatra, 422601</p>
+                      </div>
+                    </div>
+                    <div class="d-flex mb-3">
+                      <div class="me-3">
+                        <i class="fas fa-phone text-primary"></i>
+                      </div>
+                      <div>
+                        <p class="mb-0">+91 9139555224</p>
+                      </div>
+                    </div>
+                    <div class="d-flex mb-3">
+                      <div class="me-3">
+                        <i class="fas fa-envelope text-primary"></i>
+                      </div>
+                      <div>
+                        <p class="mb-0">pramodshenkar2210@gmail.com</p>
+                      </div>
+                    </div>
+                    <div class="d-flex mb-3">
+                      <div class="me-3">
+                        <i class="fab fa-linkedin text-primary"></i>
+                      </div>
+                      <div>
+                        <p class="mb-0">linkedin.com/in/pramod-shenkar-golang-dev</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <h4 class="fw-bold mb-4">Send a Message</h4>
+                    <form>
+                      <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Your Name">
+                      </div>
+                      <div class="mb-3">
+                        <input type="email" class="form-control" placeholder="Your Email">
+                      </div>
+                      <div class="mb-3">
+                        <textarea class="form-control" rows="3" placeholder="Your Message"></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="text-center mt-5">
+          <p class="mb-0">&copy; 2025 Pramod Shenkar. All rights reserved.</p>
+          <div class="mt-3">
+            <a href="#" class="text-decoration-none me-3"><i class="fab fa-github"></i></a>
+            <a href="#" class="text-decoration-none me-3"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="text-decoration-none me-3"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.45/vue.global.min.js"></script>
+  <script>
+    // Vue app
+    const app = Vue.createApp({
+      data() {
+        return {
+          cubes: []
+        }
+      },
+      mounted() {
+        // Create floating cubes for 3D effect
+        this.generateCubes();
+        
+        // Activate sections on scroll
+        this.handleScroll();
+        window.addEventListener('scroll', this.handleScroll);
+      },
+      methods: {
+        generateCubes() {
+          const cubeContainer = document.querySelector('.cube-bg');
+          if (!cubeContainer) return;
+          
+          // Create 50 cubes with random positions and sizes
+          for (let i = 0; i < 50; i++) {
+            const cube = document.createElement('div');
+            cube.classList.add('cube');
+            
+            // Random positions
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            const size = Math.random() * 40 + 20;
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 10 + 10;
+            const rotate = Math.random() * 360;
+            
+            cube.style.width = `${size}px`;
+            cube.style.height = `${size}px`;
+            cube.style.left = `${posX}%`;
+            cube.style.top = `${posY}%`;
+            cube.style.animationDelay = `${delay}s`;
+            cube.style.animationDuration = `${duration}s`;
+            cube.style.transform = `rotate(${rotate}deg)`;
+            
+            cubeContainer.appendChild(cube);
+          }
+        },
+        handleScroll() {
+          const sections = document.querySelectorAll('.section');
+          
+          sections.forEach(section => {
+            const sectionTop = section.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (sectionTop < windowHeight * 0.75) {
+              section.classList.add('visible');
+            }
+          });
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
